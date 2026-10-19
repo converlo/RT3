@@ -12,5 +12,9 @@ data/*
 # MacOS
 .DS_Store
 
-#Scripts to ignore
+# Scripts to ignore
 scripts/WDS_08403+1921.py
+
+# Empty directories to keep
+!scripts/.gitkeep
+!tests/.gitkeep
