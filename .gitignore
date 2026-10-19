@@ -6,12 +6,8 @@ __pycache__/
 .pytest_cache/
 
 # Données et sorties générées
-*.gif
-*.mp4
 data/*
 !data/.gitkeep
 
 # MacOS
 .DS_Store
-
-legacy/
