@@ -1,6 +1,17 @@
+# Python
 .venv
 __pycache__/
 *.pyc
-.DS_Store
 .ipynb_checkpoints/
-Figures/
+.pytest_cache/
+
+# Données et sorties générées
+*.gif
+*.mp4
+data/*
+!data/.gitkeep
+
+# MacOS
+.DS_Store
+
+legacy/
