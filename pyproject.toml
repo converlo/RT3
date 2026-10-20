@@ -3,24 +3,26 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "circumbinary-triples"
+name = "circumbinary_triples"
 version = "0.1.0"
 description = "Stabilité dynamique et habitabilité de planètes circumbinaires dans les systèmes stellaires triples hiérarchiques"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "GPL-3.0-or-later" }
 dependencies = [
-    contourpy==1.4.0
-    cycler==0.12.1
-    fonttools==4.67.0
-    kiwisolver==1.5.1
-    matplotlib==3.11.2
-    numpy==2.5.4
-    packaging==26.3
-    pandas==3.0.6
-    pillow==12.3.0
-    pyparsing==3.3.3
-    python-dateutil==2.9.0.post0
-    rebound==5.2.2
-    six==1.17.0
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+    "pandas>=2.1",
+    "rebound>=4.0",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/circumbinary_triples"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = ["slow: tests longs (intégrations N corps)"]
