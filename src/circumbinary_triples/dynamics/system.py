@@ -41,10 +41,8 @@ def build_system(system):
 
 def sim_parameters(sim, integrator="whfast"):
     B = sim.particles[1]
-
     sim.integrator = integrator
     sim.dt = B.P/20
-
     return sim
 
 
