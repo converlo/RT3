@@ -58,7 +58,7 @@ class PhaseConfig:
     omega: float = 0.0
     Omega: float = 0.0
     M: float = 0.0
-    
+
 
 @dataclass(frozen=True)
 class SpinConfig:
@@ -140,5 +140,5 @@ def __post_init__(self):
 @dataclass(frozen=True)
 class SystemConfig:
     binary: BinaryConfig
-    companion: CompanionConfig
     planet: PlanetConfig
+    companion: CompanionConfig
