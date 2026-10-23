@@ -1,16 +1,6 @@
 import numpy as np
 from dataclasses import replace
 
-def make_rngs(n, master_seed=None):
-    """
-    Create n statistically independent Generators from a seed.
- 
-    Returns (rngs, entropy). Store `entropy` in the metadata of your outputs
-    (figures, tables) and pass it back as `master_seed` to reproduce the run.
-    """
-    ss = np.random.SeedSequence(master_seed)
-    return [np.random.default_rng(s) for s in ss.spawn(n)], ss.entropy
-
 def random_phases(system, rng=None):
     """
     Return a copy of `system` with randomized orbital phases.
