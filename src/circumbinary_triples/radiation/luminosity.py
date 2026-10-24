@@ -69,5 +69,6 @@ def temperature(system, position):
 
     return T_eq
     
-
-
+def mean_temperature(system, position):
+    """Time-averaged equilibrium temperature (NaN-aware), in K."""
+    return np.nanmean(temperature(system, position))

@@ -8,8 +8,8 @@ from .config import (
 
 from .dynamics.system import (build_system, sim_parameters, positions)
 
-from .radiation.luminosity import (luminosity, temperature)
+from .radiation.luminosity import (luminosity, temperature, mean_temperature)
 
-#from .analytic.statistics import ()
+from .analytic.sweep import (sweep, SweepAxis, SweepResult)
 
-from .dynamics.phases import (make_rngs, random_phases)
+from .dynamics.phases import (random_phases)

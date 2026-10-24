@@ -7,10 +7,6 @@ def random_phases(system, rng=None):
  
     `rng` can be a numpy Generator (preferred), an int seed, or None
     (fresh OS entropy, not reproducible).
- 
-    Only the mean anomaly M (uniform in time) and the argument of pericenter
-    omega are drawn. Omega (longitude of the ascending node) is left
-    untouched: it is degenerate for coplanar systems (i = 0).
 
     rngs, entropy = make_rngs(N, master_seed=12345)
     systems = [random_phases(system, rng) for rng in rngs]
@@ -22,7 +18,7 @@ def random_phases(system, rng=None):
         phases = replace(
             body.phases,
             omega=rng.uniform(0, 2 * np.pi),
-            Omega=rng.uniform(0, 2 * np.pi),  # unchanged
+            Omega=rng.uniform(0, 2 * np.pi),
             M=rng.uniform(0, 2 * np.pi),
         )
         return replace(body, phases=phases)

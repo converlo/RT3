@@ -19,9 +19,9 @@ WDS08403 = ct.SystemConfig(
     )
 )
 
-rngs, entropy = ct.make_rngs(5, master_seed=12345)
-k=2
-WDS08403 = ct.random_phases(WDS08403, rngs[k])
+#rngs, entropy = ct.make_rngs(5, master_seed=12345)
+#k=2
+#WDS08403 = ct.random_phases(WDS08403, rngs[k])
 
 sim = ct.sim_parameters(ct.build_system(WDS08403), integrator="whfast")
 
@@ -35,7 +35,7 @@ plt.figure(figsize=(6, 4))
 plt.plot(times, T_eq, color="blue")
 plt.ylabel("Equilibrium temperature [°C]")
 plt.xlabel("Time [yr]")
-plt.title(f"Random seeds = ({entropy},{k})")
+#plt.title(f"Random seeds = ({entropy},{k})")
 
 bodies = [
     (0, "Star A", "orange", 8),
@@ -52,6 +52,6 @@ plt.ylabel("y [AU]")
 plt.axis("equal")
 plt.xlim(-35, 35)
 plt.ylim(-35, 35)
-plt.title(f"Random seeds = ({entropy},{k})")
+#plt.title(f"Random seeds = ({entropy},{k})")
 plt.legend()
 plt.show()

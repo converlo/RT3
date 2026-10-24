@@ -15,6 +15,7 @@ data/*
 # Scripts to ignore
 scripts/WDS_08403+1921.py
 scripts/test.py
+scripts/sweep_test.py
 
 # Empty directories to keep
 !scripts/.gitkeep

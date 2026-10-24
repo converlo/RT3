@@ -53,7 +53,6 @@ def positions(sim, n_orbits=10, res_orbits=100):
 
     times = np.linspace(sim.t, sim.t + n_orbits*p.P, res_orbits)
     pos = np.zeros((len(times), sim.N, 3))
-    com_AB = np.zeros(3)
 
     for k, t in enumerate(times):
         sim.integrate(t, exact_finish_time=0)
