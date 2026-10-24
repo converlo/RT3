@@ -142,3 +142,8 @@ class SystemConfig:
     binary: BinaryConfig
     planet: PlanetConfig
     companion: CompanionConfig
+
+@dataclass(frozen=True)
+class Trajectory:
+    t: np.ndarray      # (n_times,) temps réels atteints, en années
+    pos: np.ndarray

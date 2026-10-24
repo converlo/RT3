@@ -26,13 +26,12 @@ WDS08403 = ct.SystemConfig(
 sim = ct.sim_parameters(ct.build_system(WDS08403), integrator="whfast")
 
 n=30
-pos = ct.positions(sim, n_orbits=n, res_orbits=10000)
-times = np.linspace(0, n * sim.particles[2].P , 10000)
-T_eq = ct.temperature(WDS08403, pos) - 273.15
+traj = ct.positions(sim, n_orbits=100, res_orbits=1000)
+T_eq = ct.temperature(WDS08403, traj) - 273.15
 
 
 plt.figure(figsize=(6, 4))
-plt.plot(times, T_eq, color="blue")
+plt.plot(traj.t, T_eq, color="blue")
 plt.ylabel("Equilibrium temperature [°C]")
 plt.xlabel("Time [yr]")
 #plt.title(f"Random seeds = ({entropy},{k})")
@@ -46,7 +45,7 @@ bodies = [
 
 plt.figure(figsize=(6, 6))
 for i, name, color, size in bodies:
-    plt.plot(pos[:, i, 0], pos[:, i, 1], color=color, label=name)
+    plt.plot(traj.pos[:, i, 0], traj.pos[:, i, 1], color=color, label=name)
 plt.xlabel("x [AU]")
 plt.ylabel("y [AU]")
 plt.axis("equal")

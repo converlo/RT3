@@ -1,5 +1,6 @@
 import rebound
 import numpy as np
+from circumbinary_triples.config import Trajectory
 
 
 def build_system(system):
@@ -53,13 +54,15 @@ def positions(sim, n_orbits=10, res_orbits=100):
 
     times = np.linspace(sim.t, sim.t + n_orbits*p.P, res_orbits)
     pos = np.zeros((len(times), sim.N, 3))
+    t_real = np.zeros(len(times))
 
     for k, t in enumerate(times):
         sim.integrate(t, exact_finish_time=0)
+        t_real[k] = sim.t
         com_AB = (A.m * np.array([A.x, A.y, A.z])+ B.m * np.array([B.x, B.y, B.z])) / (A.m + B.m)
         pos[k] = np.array([[body.x, body.y, body.z] for body in sim.particles]) - com_AB
 
-    return pos
+    return Trajectory(t=t_real, pos=pos)
 
 
 

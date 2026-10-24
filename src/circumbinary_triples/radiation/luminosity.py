@@ -44,24 +44,17 @@ def luminosity(m):
     return float(L) if L.ndim == 0 else L
 
 def temperature(system, position):
-    L_A, L_B, L_C = [
-        luminosity(m)
-        for m in (system.binary.m_A, system.binary.m_B, system.companion.m_C)
-    ]
+    L = np.array([
+        luminosity(system.binary.m_A),
+        luminosity(system.binary.m_B),
+        luminosity(system.companion.m_C),
+    ])
 
-    distances = np.zeros((position.shape[0], 3))
+    stars = position.pos[:, [0, 1, 3], :]
+    planet = position.pos[:, 2:3, :]
+    distances = np.linalg.norm(stars - planet, axis=-1)
 
-    for t in range(position.shape[0]):
-        distances[t] = [
-            np.linalg.norm(position[t, 2, :] - position[t, i, :])
-            for i in (0, 1, 3)
-        ]
-
-    flux = (
-        L_A / distances[:, 0]**2
-        + L_B / distances[:, 1]**2
-        + L_C / distances[:, 2]**2
-    ) * L_SUN / AU**2
+    flux = np.sum(L / distances**2, axis=1) * L_SUN / AU**2
 
     T_eq = system.planet.greenhouse_factor * (
         (1 - system.planet.albedo) * flux / (16 * np.pi * SIGMA)
@@ -72,3 +65,6 @@ def temperature(system, position):
 def mean_temperature(system, position):
     """Time-averaged equilibrium temperature (NaN-aware), in K."""
     return np.nanmean(temperature(system, position))
+
+def std_temperature(system, position):
+    return np.nanstd(temperature(system, position))
