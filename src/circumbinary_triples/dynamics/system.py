@@ -47,22 +47,24 @@ def sim_parameters(sim, integrator="whfast"):
     return sim
 
 
-def positions(sim, n_orbits=10, res_orbits=100):
+def trajectory(sim, n_orbits=10, res_orbits=100):
     p = sim.particles[2]
-    A = sim.particles[0]
-    B = sim.particles[1]
 
     times = np.linspace(sim.t, sim.t + n_orbits*p.P, res_orbits)
     pos = np.zeros((len(times), sim.N, 3))
+    v = np.zeros((len(times), sim.N, 3))
     t_real = np.zeros(len(times))
 
     for k, t in enumerate(times):
         sim.integrate(t, exact_finish_time=0)
         t_real[k] = sim.t
-        com_AB = (A.m * np.array([A.x, A.y, A.z])+ B.m * np.array([B.x, B.y, B.z])) / (A.m + B.m)
-        pos[k] = np.array([[body.x, body.y, body.z] for body in sim.particles]) - com_AB
+        com = sim.com(0, 2)
+        pos[k] = np.array([[b.x, b.y, b.z] for b in sim.particles]) - np.array([com.x, com.y, com.z])
+        v[k] = np.array([[b.vx, b.vy, b.vz] for b in sim.particles]) - np.array([com.vx, com.vy, com.vz])
 
-    return Trajectory(t=t_real, pos=pos)
+    return Trajectory(t=t_real, pos=pos, v=v)
+
+
 
 
 

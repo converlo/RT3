@@ -34,9 +34,9 @@ Example
 """
 
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
 import numpy as np
-from dataclasses import dataclass
+from typing import Any, Callable, Mapping, Sequence
 
 
 @dataclass(frozen=True)
@@ -147,3 +147,53 @@ class SystemConfig:
 class Trajectory:
     t: np.ndarray      # (n_times,) temps réels atteints, en années
     pos: np.ndarray
+    v: np.ndarray
+
+
+@dataclass(frozen=True)
+class SweepAxis:
+    """Valeurs d'un paramètre balayé. `name` peut être un chemin pointé ("companion.m_C")."""
+
+    name: str
+    values: Sequence[Any]
+
+    @classmethod
+    def lin(cls, name: str, start: float, stop: float, count: int) -> "SweepAxis":
+        if count < 1:
+            raise ValueError("count doit être >= 1")
+        return cls(name=name, values=np.linspace(start, stop, count))
+
+    @classmethod
+    def log(cls, name: str, start: float, stop: float, count: int) -> "SweepAxis":
+        if count < 1:
+            raise ValueError("count doit être >= 1")
+        if start <= 0 or stop <= 0:
+            raise ValueError("start et stop doivent être > 0 pour une grille log")
+        return cls(name=name, values=np.geomspace(start, stop, count))
+
+    @classmethod
+    def explicit(cls, name: str, values: Sequence[Any]) -> "SweepAxis":
+        if len(values) == 0:
+            raise ValueError("values ne peut pas être vide")
+        return cls(name=name, values=values)
+
+
+@dataclass
+class SweepResult:
+    """Résultats : data[nom_observable][index_point][index_realisation]."""
+
+    axis: SweepAxis
+    observable_names: tuple[str, ...]
+    data: dict[str, list[list[Any]]]
+    entropy: int
+    meta: dict = field(default_factory=dict)
+
+    def array(self, name: str) -> np.ndarray:
+        """Observable scalaire -> tableau (n_points, n_realisations). None -> NaN."""
+        return np.array(self.data[name], dtype=float)
+
+    def mean(self, name: str) -> np.ndarray:
+        return np.nanmean(self.array(name), axis=1)
+
+    def std(self, name: str) -> np.ndarray:
+        return np.nanstd(self.array(name), axis=1)

@@ -4,13 +4,19 @@ from .config import (
     CompanionConfig,
     PlanetConfig,
     OrbitConfig,
-    Trajectory
+    Trajectory,
+    SweepAxis,
+    SweepResult
 )
 
-from .dynamics.system import (build_system, sim_parameters, positions)
+from .dynamics.system import (build_system, sim_parameters, trajectory)
 
-from .radiation.luminosity import (luminosity, temperature, mean_temperature, std_temperature)
+from .radiation.luminosity import (luminosity)
 
-from .analytic.sweep import (sweep, SweepAxis, SweepResult)
+from .analytic.sweep import (sweep)
 
 from .dynamics.phases import (random_phases)
+
+from .dynamics.stability import (is_stable)
+
+from .radiation.equi_temperature import (temperature, std_temperature, mean_temperature)
